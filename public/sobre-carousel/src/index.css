@@ -1,0 +1,354 @@
+/* Fundo preto absoluto, layout escuro e luxuoso */
+.sobre-carousel-root {
+  --bg-black: #000000;
+  --bg-card: #0a0a0a;
+  --text-primary: #f5f5f5;
+  --text-secondary: rgba(245, 245, 245, 0.9);
+  --text-muted: rgba(245, 245, 245, 0.55);
+  --accent-gold: #c9a962;
+  --accent-gold-soft: rgba(201, 169, 98, 0.4);
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Outfit', -apple-system, sans-serif;
+  --nav-height: 88px;
+  --equipe-gap: 2rem;
+  /* Margem lateral: 4rem cada lado; 3 cards + 2 gaps dentro desse espaço */
+  --equipe-margin-x: 4rem;
+  --equipe-inner: calc(100vw - 2 * var(--equipe-margin-x));
+  --equipe-card-w: min(420px, calc((var(--equipe-inner) - 2 * var(--equipe-gap)) / 3));
+}
+
+.sobre-carousel-root * {
+  box-sizing: border-box;
+}
+
+.sobre-carousel-root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  background: var(--bg-black);
+  overflow: hidden;
+  transition: opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1), transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sobre-carousel-root--exiting {
+  opacity: 0;
+  transform: translateY(-6vh);
+}
+
+.scroll-area {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+}
+
+.viewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+.carousel {
+  display: flex;
+  width: 200vw;
+  height: 100%;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.slide {
+  flex: 0 0 100vw;
+  width: 100vw;
+  height: 100%;
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--nav-height) + 1rem) 2rem 2rem;
+}
+
+.slide--hero .hero-content {
+  max-width: 1100px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.hero-visual {
+  aspect-ratio: 16/9;
+  border-radius: 2px;
+  overflow: hidden;
+  background: var(--bg-card);
+  background-size: cover;
+  background-position: center;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.hero-text p {
+  color: var(--text-secondary);
+  margin-bottom: 1.25rem;
+  font-size: 1.02rem;
+}
+
+.section-subtitle {
+  font-size: 0.75rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.slide--equipe {
+  position: relative;
+  padding: 0;
+}
+
+.equipe-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.equipe-header {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max-content;
+  max-width: 90vw;
+  text-align: center;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.equipe-header--animate {
+  transition: opacity 0.5s ease-out, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Entrada cinematográfica: primeiro "Quem faz acontecer" devagar, depois "Nossa equipe" bem suave (só quando chega ao centro) */
+.equipe-header--reveal .equipe-sub,
+.equipe-header--reveal .equipe-title {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+.equipe-header--reveal .equipe-sub {
+  animation: equipe-line-in 2.2s cubic-bezier(0.22, 1, 0.36, 1) 0s forwards;
+}
+
+.equipe-header--reveal .equipe-title {
+  animation: equipe-line-in 2s cubic-bezier(0.22, 1, 0.36, 1) 1.8s forwards;
+}
+
+@keyframes equipe-line-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.equipe-sub {
+  font-size: 0.75rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 0.6rem;
+  font-weight: 400;
+}
+
+.equipe-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 5vw, 3.25rem);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.equipe-body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.equipe-viewport {
+  width: calc(3 * var(--equipe-card-w) + 2 * var(--equipe-gap));
+  max-width: var(--equipe-inner);
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+}
+
+.equipe-track {
+  display: flex;
+  width: max-content;
+  gap: var(--equipe-gap);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.equipe-card {
+  flex: 0 0 var(--equipe-card-w);
+  width: var(--equipe-card-w);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.equipe-card__imgs {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/4;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.equipe-card__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-card);
+  background-size: cover;
+  background-position: center;
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.equipe-card__img--bw {
+  opacity: 1;
+  filter: grayscale(100%);
+}
+
+.equipe-card__img--color {
+  opacity: 0;
+}
+
+.equipe-card:hover .equipe-card__img--bw {
+  opacity: 0;
+}
+
+.equipe-card:hover .equipe-card__img--color {
+  opacity: 1;
+}
+
+.equipe-card__text {
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.equipe-card:hover .equipe-card__text {
+  transform: translateY(-6px);
+}
+
+.equipe-card__name {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+  margin: 0 0 0.25rem 0;
+}
+
+.equipe-card__role {
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin: 0 0 0.5rem 0;
+}
+
+.equipe-card__phrase {
+  font-size: 0.8rem;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin: 0;
+  max-width: 22em;
+}
+
+@media (max-width: 768px) {
+  .slide--hero .hero-content {
+    grid-template-columns: 1fr;
+  }
+  .sobre-carousel-root {
+    --equipe-margin-x: 1rem;
+    --equipe-gap: 1.25rem;
+    --equipe-inner: calc(100vw - 2 * var(--equipe-margin-x));
+    /* Um card grande por vez: ocupa quase toda a largura para imagem e texto legíveis */
+    --equipe-card-w: min(320px, calc(100vw - 2.5rem));
+  }
+  .equipe-viewport {
+    width: var(--equipe-card-w);
+    max-width: calc(100vw - 2rem);
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .equipe-card {
+    flex: 0 0 var(--equipe-card-w);
+    width: var(--equipe-card-w);
+    padding: 0 0.25rem;
+  }
+  .equipe-card__imgs {
+    margin-bottom: 1.25rem;
+  }
+  .equipe-card__name {
+    font-size: 1.1rem;
+  }
+  .equipe-card__role {
+    font-size: 0.65rem;
+  }
+  .equipe-card__phrase {
+    font-size: 0.85rem;
+    max-width: none;
+    padding: 0 0.5rem;
+  }
+  /* Mobile: imagem entra a cinza; no centro muda para colorida */
+  .equipe-card__img--bw {
+    opacity: 1;
+    filter: grayscale(100%);
+    transition: opacity 0.5s ease, filter 0.5s ease;
+  }
+  .equipe-card__img--color {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  .equipe-card--centered .equipe-card__img--bw {
+    opacity: 0;
+    filter: grayscale(0%);
+  }
+  .equipe-card--centered .equipe-card__img--color {
+    opacity: 1;
+  }
+}
