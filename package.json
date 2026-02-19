@@ -1,0 +1,7 @@
+{
+  "name": "sushi",
+  "private": true,
+  "scripts": {
+    "build": "cd sobre-carousel && npm install && npm run build && cd .. && node scripts/copy-public.js"
+  }
+}
