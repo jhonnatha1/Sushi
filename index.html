@@ -1,0 +1,1747 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SushiFashion – Sushi de Autor em Ambiente Exclusivo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./sobre-carousel/dist/sobre-carousel.css">
+  <style>
+    /* ============================================
+       VARIÁVEIS E RESET
+       ============================================ */
+    :root {
+      --bg-dark: #0a0a0a;
+      --bg-darker: #050505;
+      --bg-card: rgba(18, 18, 18, 0.85);
+      --text-primary: #f5f5f5;
+      --text-secondary: rgba(245, 245, 245, 0.85);
+      --text-muted: rgba(245, 245, 245, 0.6);
+      --accent-gold: #c9a962;
+      --accent-gold-hover: #d4b872;
+      --accent-red: #8b3a3a;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --nav-height: 88px;
+      --nav-height-scrolled: 64px;
+      --transition-smooth: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Outfit', -apple-system, sans-serif;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-snap-type: y mandatory;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-weight: 300;
+      color: var(--text-primary);
+      background: var(--bg-dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color var(--transition-smooth), opacity var(--transition-smooth);
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    /* ============================================
+       NAVEGAÇÃO – Barra premium com glassmorphism
+       ============================================ */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      height: var(--nav-height);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 3rem;
+      background: rgba(10, 10, 10, 0.75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+      transition: height var(--transition-smooth), padding var(--transition-smooth),
+                  background var(--transition-smooth);
+    }
+
+    .nav.nav--scrolled {
+      height: var(--nav-height-scrolled);
+      padding: 0 2rem;
+      background: rgba(10, 10, 10, 0.9);
+    }
+
+    .nav__logo {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+    }
+
+    .nav__logo span {
+      color: var(--accent-gold);
+    }
+
+    .nav__menu {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav__link {
+      font-size: 0.9rem;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      position: relative;
+      padding: 0.25rem 0;
+    }
+
+    .nav__link::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 1px;
+      background: linear-gradient(90deg, var(--accent-gold), transparent);
+      transition: width var(--transition-smooth);
+    }
+
+    .nav__link:hover {
+      color: var(--text-primary);
+    }
+
+    .nav__link:hover::after {
+      width: 100%;
+    }
+
+    /* Mobile menu toggle */
+    .nav__toggle {
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+      padding: 8px;
+    }
+
+    .nav__toggle span {
+      width: 24px;
+      height: 2px;
+      background: var(--text-primary);
+      transition: var(--transition-smooth);
+    }
+
+    .nav__toggle.nav__toggle--open span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .nav__toggle.nav__toggle--open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav__toggle.nav__toggle--open span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* ============================================
+       HERO – Full-screen premium, minimalista
+       ============================================ */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--nav-height) 2rem 4rem;
+      overflow: hidden;
+      scroll-snap-align: start;
+    }
+
+    /* Imagem full-screen (placeholder: trocar por img/hero-sushi.jpg) */
+    .hero__bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=1920&q=90') center/cover no-repeat;
+    }
+
+    /* Overlay escuro suave para leitura */
+    .hero__overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(10, 10, 10, 0.4) 0%, rgba(5, 5, 5, 0.85) 100%);
+    }
+
+    .hero__content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 720px;
+    }
+
+    .hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 10vw, 5.5rem);
+      font-weight: 500;
+      line-height: 1.05;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      margin-bottom: 0.75em;
+      opacity: 0;
+      transform: translateY(28px);
+      animation: heroFadeUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+    }
+
+    .hero__title span {
+      color: var(--accent-gold);
+      font-weight: 600;
+    }
+
+    .hero__subtitle {
+      font-family: var(--font-body);
+      font-size: clamp(0.85rem, 2vw, 1rem);
+      font-weight: 300;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: heroFadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards;
+    }
+
+    @keyframes heroFadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem 2rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 2px;
+      transition: all var(--transition-smooth);
+    }
+
+    .btn--primary {
+      background: var(--accent-gold);
+      color: var(--bg-dark);
+    }
+
+    .btn--primary:hover {
+      background: var(--accent-gold-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(201, 169, 98, 0.25);
+    }
+
+    .btn--outline {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .btn--outline:hover {
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+      transform: translateY(-2px);
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ============================================
+       SECÇÕES COM EFEITO DE SCROLL / PARALLAX
+       ============================================ */
+    .scroll-section {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6rem 2rem;
+      scroll-snap-align: start;
+    }
+
+    /* Imagem de fundo full width por secção */
+    .scroll-section__bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      transition: opacity 0.8s ease;
+    }
+
+    .scroll-section__bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(10, 10, 10, 0.85) 0%, rgba(10, 10, 10, 0.75) 100%);
+    }
+
+    /* Imagens de fundo mockadas (Unsplash) – overlay escuro via ::after */
+    .scroll-section__bg--1 {
+      background-image: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1920&q=85');
+    }
+
+    .scroll-section__bg--2 {
+      background-image: url('https://images.unsplash.com/photo-1617196034796-73e1d9e4b345?w=1920&q=85');
+    }
+
+    .scroll-section__bg--3 {
+      background-image: url('https://images.unsplash.com/photo-1581349485608-9469946a8e5e?w=1920&q=85');
+    }
+
+    /* Contactos: fundo próprio (mais escuro / diferente) */
+    .scroll-section__bg--contact {
+      background-color: var(--bg-darker);
+      background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=85');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .scroll-section__bg--contact::after {
+      background: linear-gradient(180deg, rgba(5, 5, 5, 0.94) 0%, rgba(5, 5, 5, 0.9) 100%);
+    }
+
+    .scroll-section__content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .section-subtitle {
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      margin-bottom: 2.5rem;
+    }
+
+    /* Elementos que entram com scroll */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.reveal--visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================================
+       SECÇÃO INFORMAÇÕES – Duas colunas, conteúdo centrado
+       ============================================ */
+    #informacoes .scroll-section__content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      /* padding: 4rem 2rem; */
+      text-align: start;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto 1fr;
+      gap: 0 4rem;
+      row-gap: 2rem;
+      align-items: start;
+      max-width: 1000px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .info__header {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .info__header .section-subtitle {
+      margin-bottom: 0.5rem;
+    }
+
+    .info__header .section-title {
+      margin-bottom: 0;
+    }
+
+    .info__visual {
+      grid-column: 2;
+      grid-row: 1 / -1;
+      align-self: start;
+    }
+
+    .info__text {
+      grid-column: 1;
+      grid-row: 2;
+      padding-right: 0.5rem;
+    }
+
+    .info__text p {
+      color: var(--text-secondary);
+      margin-bottom: 1.35rem;
+      font-size: 1.02rem;
+      line-height: 1.65;
+    }
+
+    .info__text p:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .info__meta {
+      margin-top: 2.25rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .info__meta-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    .info__meta-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .info__meta-item strong {
+      color: var(--text-primary);
+      font-weight: 500;
+      min-width: 6.5rem;
+      flex-shrink: 0;
+    }
+
+    /* Imagem por CSS: fallback em data URI (sempre visível) + externa se carregar */
+    .info__visual {
+      position: relative;
+      aspect-ratio: 3/4;
+      min-height: 220px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 4px;
+      overflow: hidden;
+      background-color: #151210;
+      background-image: url('imgs/conceito.jpg'), linear-gradient(135deg, #1a1510 0%, #0f0d0a 100%);
+      background-size: calc(100% + 8px) 100%, cover;
+      background-position: center, center;
+    }
+
+    .about__visual {
+      position: relative;
+      aspect-ratio: 3/4;
+      min-height: 280px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 4px;
+      overflow: hidden;
+      background-color: #151210;
+      background-image: url('https://picsum.photos/600/800'),
+                        linear-gradient(160deg, #1a1510 0%, #0f0d0a 100%);
+      background-size: cover, cover;
+      background-position: center, center;
+    }
+
+    /* ============================================
+       SECÇÃO COMO PREFERIR – 3 cards premium, minimalista
+       ============================================ */
+    .como-preferir {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6rem 2rem;
+      background: var(--bg-darker);
+      background-image: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(201, 169, 98, 0.04) 0%, transparent 55%), linear-gradient(180deg, #0a0908 0%, #050505 100%);
+      scroll-snap-align: start;
+    }
+
+    .como-preferir__inner {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .como-preferir__header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .como-preferir__subtitle {
+      font-size: 0.7rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      font-weight: 400;
+      margin: 0;
+    }
+
+    .como-preferir__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .como-preferir__card {
+      position: relative;
+      min-height: 280px;
+      border-radius: 2px;
+      overflow: hidden;
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: flex-end;
+      transition: border-color 0.4s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .como-preferir__card:hover {
+      border-color: rgba(201, 169, 98, 0.25);
+      transform: translateY(-6px);
+    }
+
+    .como-preferir__card.reveal {
+      transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .como-preferir__card-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(145deg, #0f0e0c 0%, #1a1815 100%);
+      background-size: cover;
+      background-position: center;
+    }
+
+    .como-preferir__card-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    .como-preferir__card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.75) 70%);
+      pointer-events: none;
+    }
+
+    .como-preferir__card-content {
+      position: relative;
+      z-index: 2;
+      padding: 2.5rem 1.75rem;
+      width: 100%;
+    }
+
+    .como-preferir__icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-gold);
+      margin-bottom: 1.25rem;
+      opacity: 0.92;
+    }
+
+    .como-preferir__icon svg {
+      display: block;
+    }
+
+    .como-preferir__card-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--text-primary);
+      margin: 0 0 0.6rem;
+      line-height: 1.3;
+    }
+
+    .como-preferir__card-text {
+      font-size: 0.9rem;
+      font-weight: 300;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      margin: 0;
+      max-width: 28ch;
+    }
+
+    /* ============================================
+       SECÇÃO SOBRE – Carrossel: Sobre (slide 1) → Equipe (slide 2) no mesmo container
+       Conteúdo fixo até a secção estar no topo; depois Sobre sai devagar à esquerda, Equipe substitui
+       ============================================ */
+    .sobre {
+      position: relative;
+      height: 100vh;
+      min-height: 100vh;
+      scroll-margin-top: 0;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
+
+    /* ============================================
+       SECÇÃO O QUE FAZEMOS – 3 blocos fullscreen premium
+       ============================================ */
+    .o-que-fazemos {
+      position: relative;
+    }
+
+    .o-que-fazemos__block {
+      position: relative;
+      min-height: 100vh;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
+
+    .o-que-fazemos__block.reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1), transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .o-que-fazemos__block.reveal.reveal--visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .o-que-fazemos__bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .o-que-fazemos__block:nth-child(1) .o-que-fazemos__bg {
+      background-image: url('imgs/workshop.jpg');
+    }
+
+    .o-que-fazemos__block:nth-child(2) .o-que-fazemos__bg {
+      background-image: url('imgs/catering.jpg');
+    }
+
+    .o-que-fazemos__block:nth-child(3) .o-que-fazemos__bg {
+      background-image: url('imgs/eventos.webp');
+    }
+
+    .o-que-fazemos__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(5, 5, 5, 0.82) 0%, rgba(0, 0, 0, 0.88) 100%);
+    }
+
+    .o-que-fazemos__content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      width: 100%;
+      padding: 0 4rem;
+      text-align: left;
+    }
+
+    .o-que-fazemos__text {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+      font-weight: 500;
+      line-height: 1.35;
+      letter-spacing: 0.02em;
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    .o-que-fazemos__text::before {
+      content: '';
+      display: block;
+      width: 48px;
+      height: 2px;
+      background: var(--accent-gold);
+      margin-bottom: 1.5rem;
+    }
+
+    #root-sobre {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .sobre__bg {
+      position: absolute;
+      inset: 0;
+      background: #000000;
+    }
+
+    .sobre__bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: transparent;
+    }
+
+    /* Altura definida por JS consoante o número de imagens (scroll lateral até à última) */
+    .sobre__scroll-area {
+      position: relative;
+      z-index: 2;
+      min-height: 150vh;
+    }
+
+    /* Um único viewport fixo: fica colado ao topo até chegar à área; dentro = carrossel de 2 slides */
+    .sobre-viewport {
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .sobre-carousel {
+      display: flex;
+      width: 200vw;
+      height: 100%;
+      will-change: transform;
+    }
+
+    .sobre-slide {
+      flex: 0 0 100vw;
+      width: 100vw;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: calc(var(--nav-height) + 2rem) 2rem 4rem;
+    }
+
+    /* Slide 1: desvanece ao chegar ao final à esquerda (opacity via JS) */
+    .sobre-slide--hero {
+      transition: opacity 0.25s ease;
+    }
+
+    /* Sobre no centro (mesma técnica que Nossa equipe e 3 imagens) */
+    .sobre-slide--hero .sobre-hero__content {
+      max-width: 1100px;
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .sobre-hero__visual {
+      aspect-ratio: 3/4;
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--bg-card);
+      background-image: url('https://media.istockphoto.com/id/1409730623/pt/foto/business-owner-with-his-staff-at-a-restaurant.jpg?s=800&w=0&k=20&c=r2T5t6QWWd_qfl0MizMiKhAJua8nRziN2Mph5MHZ3cM=');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .sobre-hero__text p {
+      color: var(--text-secondary);
+      margin-bottom: 1.25rem;
+      font-size: 1.02rem;
+    }
+
+    .sobre-slide--equipe {
+      --equipe-card-w: min(480px, calc((100vw - 6rem) / 3));
+      --equipe-gap: 2rem;
+      position: relative;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Content: título e viewport ocupam o mesmo centro (não no topo) */
+    .sobre-equipe__content {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+    }
+
+    /* Container "Quem faz acontecer" + "Nossa equipe" no centro; sai pela esquerda ao scroll (JS) */
+    .sobre-equipe__header {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: max-content;
+      max-width: 90vw;
+      text-align: center;
+      padding: 0;
+      pointer-events: none;
+    }
+
+    .sobre-equipe__sub {
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+      margin-bottom: 0.5rem;
+    }
+
+    .sobre-equipe__title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5.5vw, 3.5rem);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--text-primary);
+      margin: 0;
+      line-height: 1.15;
+    }
+
+    /* Imagens entram pela direita ao scroll (transform via JS) */
+    .sobre-equipe__body {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+    }
+
+    /* Janela = exatamente 3 cards (esquerda | centro | direita), centrada como o título */
+    .equipe-viewport {
+      width: calc(3 * var(--equipe-card-w) + 2 * var(--equipe-gap));
+      max-width: calc(100vw - 4rem);
+      margin-left: auto;
+      margin-right: auto;
+      overflow: hidden;
+      touch-action: pan-y;
+    }
+
+    .equipe-track {
+      display: flex;
+      width: max-content;
+      gap: var(--equipe-gap);
+    }
+
+    .equipe-card {
+      flex: 0 0 var(--equipe-card-w);
+      width: var(--equipe-card-w);
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: opacity 0.4s ease;
+    }
+
+    .equipe-card__img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--bg-card);
+      background-size: cover;
+      background-position: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .equipe-card__name {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .equipe-card__phrase {
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin: 0;
+      border: none;
+      background: none;
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    @media (max-width: 1024px) {
+      .sobre-slide--equipe {
+        --equipe-card-w: min(320px, calc((100vw - 4rem) / 3));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sobre-slide--hero .sobre-hero__content {
+        grid-template-columns: 1fr;
+      }
+
+      .sobre-hero__visual {
+        max-height: 320px;
+        aspect-ratio: 16/10;
+      }
+
+      .sobre-equipe__body {
+        position: absolute;
+        top: 50%;
+      }
+
+      .sobre-slide--equipe {
+        --equipe-card-w: min(260px, calc(100vw - 4rem));
+      }
+
+      .equipe-viewport {
+        width: calc(var(--equipe-card-w) + 2rem);
+        max-width: calc(100vw - 2rem);
+      }
+    }
+
+    /* ============================================
+       SECÇÃO CONTACTOS – Formulário e info + entrada com fade-in premium
+       ============================================ */
+    #contactos {
+      opacity: 0;
+      transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    #contactos.secção-entrada-visible {
+      opacity: 1;
+    }
+
+    .contact-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .contact-form label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.35rem;
+      color: var(--text-secondary);
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 1rem 1.25rem;
+      font-family: inherit;
+      font-size: 1rem;
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      border-radius: 2px;
+      transition: border-color var(--transition-smooth), box-shadow var(--transition-smooth);
+    }
+
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder {
+      color: var(--text-muted);
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      outline: none;
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 0 3px rgba(201, 169, 98, 0.15);
+    }
+
+    .contact-form textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    .contact-form .btn {
+      align-self: flex-start;
+    }
+
+    .contact-info__item {
+      margin-bottom: 1.5rem;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .contact-info__item strong {
+      display: block;
+      color: var(--text-primary);
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .contact-social {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .contact-social a {
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      transition: all var(--transition-smooth);
+    }
+
+    .contact-social svg,
+    .footer__social svg {
+      flex-shrink: 0;
+    }
+
+    .contact-social a:hover {
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+    .footer {
+      background: var(--bg-darker);
+      padding: 2.5rem 2rem;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .footer__inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .footer__copy {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .footer__links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .footer__links a {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .footer__links a:hover {
+      color: var(--accent-gold);
+    }
+
+    .footer__social {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .footer__social a {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      border: 1px solid var(--border-subtle);
+      border-radius: 50%;
+      transition: all var(--transition-smooth);
+    }
+
+    .footer__social a:hover {
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
+
+    .footer__social a:hover {
+      color: var(--accent-gold);
+    }
+
+    /* ============================================
+       RESPONSIVO
+       ============================================ */
+    @media (max-width: 1024px) {
+      .nav {
+        padding: 0 1.5rem;
+      }
+
+      .nav__menu {
+        gap: 1.5rem;
+      }
+
+      .hero {
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+
+      .info-grid,
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      .about-grid .about__visual {
+        order: -1;
+        max-height: 320px;
+        aspect-ratio: 16/10;
+      }
+
+      .contact-wrapper {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      /* ——— Scroll: não forçar snap para não subir para o contacto ao ir ao footer ——— */
+      html {
+        scroll-snap-type: y proximity;
+      }
+
+      .footer {
+        scroll-snap-align: start;
+      }
+
+      /* ——— Navegação: hamburger no canto direito ——— */
+      .nav {
+        justify-content: space-between;
+        padding: 0 1.25rem;
+      }
+
+      .nav__toggle {
+        display: flex;
+        margin-left: auto;
+        order: 2;
+      }
+
+      .nav__logo {
+        order: 1;
+      }
+
+      .nav__menu {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 280px;
+        height: 100vh;
+        background: rgba(10, 10, 10, 0.98);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: calc(var(--nav-height) + 2rem) 2rem 2rem;
+        gap: 1.5rem;
+        transform: translateX(100%);
+        transition: transform var(--transition-smooth);
+        border-left: 1px solid var(--border-subtle);
+      }
+
+      .nav__menu.nav__menu--open {
+        transform: translateX(0);
+      }
+
+      /* ——— Hero: título não cortado, conteúdo ajustado ——— */
+      .hero__content {
+        max-width: 100%;
+        overflow: visible;
+      }
+
+      .hero__title {
+        font-size: clamp(1.85rem, 10vw, 2.75rem);
+        letter-spacing: 0.08em;
+        margin-bottom: 0.5em;
+        line-height: 1.1;
+        word-break: break-word;
+      }
+
+      .hero__subtitle {
+        font-size: 0.75rem;
+        letter-spacing: 0.25em;
+      }
+
+      .section-title {
+        font-size: clamp(1.5rem, 5vw, 2rem);
+        margin-bottom: 0.75rem;
+      }
+
+      .section-subtitle {
+        font-size: 0.68rem;
+        letter-spacing: 0.24em;
+        margin-bottom: 0.4rem;
+      }
+
+      .como-preferir__subtitle {
+        font-size: 0.65rem;
+        letter-spacing: 0.28em;
+      }
+
+      .como-preferir__card-title {
+        font-size: 1.1rem;
+      }
+
+      .como-preferir__card-text {
+        font-size: 0.85rem;
+      }
+
+      .o-que-fazemos__text {
+        font-size: clamp(1.35rem, 4.5vw, 1.85rem);
+      }
+
+      .o-que-fazemos__text::before {
+        width: 36px;
+        margin-bottom: 1rem;
+      }
+
+      .info__text p,
+      #informacoes .info__text p {
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+      }
+
+      .contact-form label {
+        font-size: 0.8rem;
+      }
+
+      .contact-info__item {
+        font-size: 0.9rem;
+      }
+
+      .contact-info__item strong {
+        font-size: 0.8rem;
+      }
+
+      /* ——— Secções: height auto + min-height 100vh, espaçamentos compactos ——— */
+      .hero {
+        height: auto;
+        min-height: 100vh;
+        padding: calc(var(--nav-height) + 1.5rem) 1.25rem 2rem;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .hero__content {
+        max-width: 100%;
+      }
+
+      .hero__overlay {
+        background: linear-gradient(180deg, rgba(10, 10, 10, 0.92) 0%, rgba(10, 10, 10, 0.75) 100%);
+      }
+
+      .hero__buttons {
+        justify-content: center;
+      }
+
+      .scroll-section {
+        min-height: 100vh;
+        height: auto;
+        padding: 3.5rem 1.25rem;
+      }
+
+      .scroll-section__bg {
+        background-position: center center;
+        background-size: cover;
+      }
+
+      #informacoes .scroll-section__content {
+        padding: 0 1rem;
+      }
+
+      /* ——— Nosso conceito (Informações): só texto no mobile (imagem oculta) ——— */
+      .info-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+        gap: 1.25rem;
+        row-gap: 1.25rem;
+        max-width: 100%;
+      }
+
+      .info__header {
+        grid-column: 1;
+        grid-row: 1;
+      }
+
+      .info__visual {
+        display: none;
+      }
+
+      .info__text {
+        grid-column: 1;
+        grid-row: 2;
+        padding-right: 0;
+      }
+
+      .info__header .section-title {
+        margin-bottom: 0;
+      }
+
+      /* ——— O Que Fazemos: blocos auto-height, texto legível ——— */
+      .o-que-fazemos__block {
+        height: auto;
+        min-height: 100vh;
+        align-items: center;
+      }
+
+      .o-que-fazemos__content {
+        padding: 0 1.5rem;
+        text-align: left;
+        max-width: 100%;
+      }
+
+      .o-que-fazemos__bg {
+        background-position: center center;
+        background-size: cover;
+      }
+
+      /* ——— Como Preferir: 1 coluna, compacto ——— */
+      .como-preferir {
+        min-height: 100vh;
+        height: auto;
+        padding: 3.5rem 1.25rem;
+      }
+
+      .como-preferir__header {
+        margin-bottom: 2.5rem;
+      }
+
+      .como-preferir__grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+      }
+
+      .como-preferir__card {
+        min-height: 220px;
+      }
+
+      .como-preferir__card-content {
+        padding: 1.75rem 1.25rem;
+      }
+
+      /* ——— Contactos: 1 coluna já em 1024px; compactar ——— */
+      .contact-section .scroll-section__content {
+        text-align: left;
+      }
+
+      .contact-wrapper {
+        gap: 2rem;
+      }
+
+      .contact-form textarea {
+        min-height: 120px;
+      }
+
+      /* ——— Animações reveal: suaves no mobile ——— */
+      .reveal {
+        transform: translateY(24px);
+        transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .reveal.reveal--visible {
+        transform: translateY(0);
+      }
+
+      .o-que-fazemos__block.reveal {
+        transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .como-preferir__card.reveal {
+        transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      /* ——— Footer ——— */
+      .footer {
+        padding: 2rem 1.25rem;
+      }
+
+      .footer__inner {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav__logo {
+        font-size: 1.35rem;
+      }
+
+      .hero__buttons {
+        flex-direction: column;
+      }
+
+      .hero__buttons .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ========== NAVEGAÇÃO ========== -->
+  <header class="nav" id="nav" role="banner">
+    <a href="#home" class="nav__logo">Sushi<span>Fashion</span></a>
+    <button class="nav__toggle" id="navToggle" aria-label="Abrir menu" type="button">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav role="navigation">
+      <ul class="nav__menu" id="navMenu">
+        <li><a href="#home" class="nav__link">Home</a></li>
+        <li><a href="#informacoes" class="nav__link">Informações</a></li>
+        <li><a href="#pedidos" class="nav__link">Pedidos Online & Reservas</a></li>
+        <li><a href="#sobre" class="nav__link">Sobre</a></li>
+        <li><a href="#o-que-fazemos" class="nav__link">O Que Fazemos</a></li>
+        <li><a href="#contactos" class="nav__link">Contactos</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ========== HERO ========== -->
+  <section class="hero" id="home">
+    <div class="hero__bg" aria-hidden="true"></div>
+    <div class="hero__overlay" aria-hidden="true"></div>
+    <div class="hero__content">
+      <h1 class="hero__title">Sushi<span>Fashion</span></h1>
+      <p class="hero__subtitle">Tradição japonesa com toque contemporâneo</p>
+    </div>
+  </section>
+
+  <!-- ========== SECÇÃO INFORMAÇÕES (com fundo scroll) ========== -->
+  <section class="scroll-section" id="informacoes">
+    <div class="scroll-section__bg scroll-section__bg--1" aria-hidden="true"></div>
+    <div class="scroll-section__content">
+      <div class="info-grid reveal" data-reveal>
+        <div class="info__header">
+          <p class="section-subtitle">O nosso conceito</p>
+          <h2 class="section-title">Informações</h2>
+        </div>
+        <div class="info__visual" role="img" aria-label="Interior do restaurante SushiFashion"></div>
+        <div class="info__text">
+          <p>No SushiFashion, cada prato é uma obra de arte. Combinamos a tradição japonesa com uma visão contemporânea, usando apenas ingredientes de origem premium e técnicas de corte e apresentação de autor.</p>
+          <p>O ambiente foi pensado para que cada refeição seja uma experiência sensorial única: iluminação cuidada, música ambiente e um serviço discreto e refinado.</p>
+          <div class="info__meta">
+            <div class="info__meta-item"><strong>Horário</strong> Seg–Sáb 12h–15h, 19h–23h | Dom 19h–23h</div>
+            <div class="info__meta-item"><strong>Localização</strong> Av. da Liberdade, Lisboa — em breve o endereço exacto</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SECÇÃO COMO PREFERIR – 3 cards premium ========== -->
+  <section class="como-preferir" id="pedidos" aria-label="Como Preferir">
+    <div class="como-preferir__inner">
+      <header class="como-preferir__header reveal" data-reveal>
+        <p class="como-preferir__subtitle">Como preferir</p>
+      </header>
+      <div class="como-preferir__grid">
+        <article class="como-preferir__card reveal" data-reveal>
+          <div class="como-preferir__card-bg" aria-hidden="true"></div>
+          <div class="como-preferir__card-overlay" aria-hidden="true"></div>
+          <div class="como-preferir__card-content">
+            <span class="como-preferir__icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><ellipse cx="12" cy="11" rx="2.5" ry="2"/></svg>
+            </span>
+            <h3 class="como-preferir__card-title">Pedidos Online</h3>
+            <p class="como-preferir__card-text">Receba o melhor sushi em casa, com a mesma qualidade do restaurante.</p>
+          </div>
+        </article>
+        <article class="como-preferir__card reveal" data-reveal>
+          <div class="como-preferir__card-bg" aria-hidden="true"></div>
+          <div class="como-preferir__card-overlay" aria-hidden="true"></div>
+          <div class="como-preferir__card-content">
+            <span class="como-preferir__icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </span>
+            <h3 class="como-preferir__card-title">Reservas</h3>
+            <p class="como-preferir__card-text">Garanta o seu lugar para uma experiência japonesa inesquecível.</p>
+          </div>
+        </article>
+        <article class="como-preferir__card reveal" data-reveal>
+          <div class="como-preferir__card-bg" aria-hidden="true"></div>
+          <div class="como-preferir__card-overlay" aria-hidden="true"></div>
+          <div class="como-preferir__card-content">
+            <span class="como-preferir__icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </span>
+            <h3 class="como-preferir__card-title">Chef's Table</h3>
+            <p class="como-preferir__card-text">Uma experiência exclusiva, criada ao lado do nosso mestre sushi chef.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SECÇÃO SOBRE – Carrossel React (Sobre → Nossa equipe → imagens) ========== -->
+  <section class="sobre" id="sobre">
+    <div class="sobre__bg" aria-hidden="true"></div>
+    <div id="root-sobre"></div>
+  </section>
+
+  <!-- ========== SECÇÃO O QUE FAZEMOS – 3 blocos fullscreen premium ========== -->
+  <section class="o-que-fazemos" id="o-que-fazemos" aria-label="O Que Fazemos">
+    <div class="o-que-fazemos__block reveal" data-reveal>
+      <div class="o-que-fazemos__bg" aria-hidden="true"></div>
+      <div class="o-que-fazemos__overlay" aria-hidden="true"></div>
+      <div class="o-que-fazemos__content">
+        <p class="o-que-fazemos__text">Workshops de Sushi — Aprenda técnicas japonesas com os nossos mestres.</p>
+      </div>
+    </div>
+    <div class="o-que-fazemos__block reveal" data-reveal>
+      <div class="o-que-fazemos__bg" aria-hidden="true"></div>
+      <div class="o-que-fazemos__overlay" aria-hidden="true"></div>
+      <div class="o-que-fazemos__content">
+        <p class="o-que-fazemos__text">Eventos Privados — O espaço perfeito para momentos exclusivos.</p>
+      </div>
+    </div>
+    <div class="o-que-fazemos__block reveal" data-reveal>
+      <div class="o-que-fazemos__bg" aria-hidden="true"></div>
+      <div class="o-que-fazemos__overlay" aria-hidden="true"></div>
+      <div class="o-que-fazemos__content">
+        <p class="o-que-fazemos__text">Experiências Exclusivas — Menus especiais criados para surpreender.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SECÇÃO CONTACTOS ========== -->
+  <section class="scroll-section contact-section" id="contactos">
+    <div class="scroll-section__bg scroll-section__bg--contact" aria-hidden="true"></div>
+    <div class="scroll-section__content">
+      <div class="reveal" data-reveal>
+        <p class="section-subtitle">Fale connosco</p>
+        <h2 class="section-title">Contactos</h2>
+      </div>
+      <div class="contact-wrapper">
+        <form class="contact-form reveal" data-reveal action="#" method="post">
+          <div>
+            <label for="name">Nome</label>
+            <input type="text" id="name" name="name" placeholder="O seu nome" required>
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="o seu@email.pt" required>
+          </div>
+          <div>
+            <label for="message">Mensagem</label>
+            <textarea id="message" name="message" placeholder="A sua mensagem..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn--primary">Enviar mensagem</button>
+        </form>
+        <div class="contact-info reveal" data-reveal>
+          <div class="contact-info__item">
+            <strong>Telefone</strong>
+            +351 21 000 00 00
+          </div>
+          <div class="contact-info__item">
+            <strong>Email</strong>
+            contacto@sushifashion.pt
+          </div>
+          <div class="contact-info__item">
+            <strong>Morada</strong>
+            Av. da Liberdade, Lisboa
+          </div>
+          <div class="contact-social">
+            <a href="#" aria-label="Instagram">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </a>
+            <a href="#" aria-label="Facebook">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <p class="footer__copy">© SushiFashion – Todos os direitos reservados</p>
+      <div class="footer__links">
+        <a href="#">Política de Privacidade</a>
+        <a href="#">Termos</a>
+      </div>
+      <div class="footer__social">
+        <a href="#" aria-label="Instagram">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="#" aria-label="Facebook">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ============================================
+       NAV: scroll reduz altura e mantém elegância
+       ============================================ */
+    (function () {
+      const nav = document.getElementById('nav');
+      const scrollThreshold = 80;
+
+      function updateNav() {
+        if (window.scrollY > scrollThreshold) {
+          nav.classList.add('nav--scrolled');
+        } else {
+          nav.classList.remove('nav--scrolled');
+        }
+      }
+
+      window.addEventListener('scroll', function () {
+        requestAnimationFrame(updateNav);
+      }, { passive: true });
+      updateNav();
+    })();
+
+    /* ============================================
+       Menu mobile: toggle
+       ============================================ */
+    (function () {
+      const toggle = document.getElementById('navToggle');
+      const menu = document.getElementById('navMenu');
+      const links = menu.querySelectorAll('.nav__link');
+
+      function openMenu() {
+        toggle.classList.add('nav__toggle--open');
+        menu.classList.add('nav__menu--open');
+        toggle.setAttribute('aria-label', 'Fechar menu');
+      }
+
+      function closeMenu() {
+        toggle.classList.remove('nav__toggle--open');
+        menu.classList.remove('nav__menu--open');
+        toggle.setAttribute('aria-label', 'Abrir menu');
+      }
+
+      toggle.addEventListener('click', function () {
+        if (menu.classList.contains('nav__menu--open')) {
+          closeMenu();
+        } else {
+          openMenu();
+        }
+      });
+
+      links.forEach(function (link) {
+        link.addEventListener('click', closeMenu);
+      });
+    })();
+
+    /* ============================================
+       Reveal ao scroll: fade-in / slide-up
+       ============================================ */
+    (function () {
+      const reveals = document.querySelectorAll('[data-reveal]');
+      const options = {
+        root: null,
+        rootMargin: '0px 0px -80px 0px',
+        threshold: 0.15
+      };
+
+      const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('reveal--visible');
+          }
+        });
+      }, options);
+
+      reveals.forEach(function (el) {
+        observer.observe(el);
+      });
+    })();
+
+    /* ============================================
+       Formulário: evitar submit real (placeholder)
+       ============================================ */
+    document.querySelector('.contact-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      alert('O formulário está em modo demonstração. Integre com o seu backend ou serviço de email.');
+    });
+  </script>
+  <script>
+    (function () {
+      var sec = document.getElementById('contactos');
+      if (!sec) return;
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('secção-entrada-visible'); });
+      }, { threshold: 0.08 });
+      obs.observe(sec);
+    })();
+  </script>
+  <script type="module" src="./sobre-carousel/dist/sobre-carousel.js"></script>
+</body>
+</html>
