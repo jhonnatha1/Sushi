@@ -1,0 +1,11 @@
+# Render – Static Site (https://render.com)
+# Conecta o repo no dashboard; ou usa este blueprint.
+
+services:
+  - type: web
+    name: sushi
+    runtime: static
+    # Pasta a publicar = raiz do repo (index.html e resto do site)
+    staticPublishPath: .
+    # Gera sobre-carousel/dist/ (CSS e JS do carrossel)
+    buildCommand: cd sobre-carousel && npm install && npm run build
